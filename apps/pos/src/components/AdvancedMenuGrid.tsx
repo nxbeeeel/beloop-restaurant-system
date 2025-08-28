@@ -31,7 +31,7 @@ const AdvancedMenuGrid: React.FC<AdvancedMenuGridProps> = memo(({ items }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
       <AnimatePresence>
         {items.map((item, index) => (
           <motion.div
@@ -41,22 +41,22 @@ const AdvancedMenuGrid: React.FC<AdvancedMenuGridProps> = memo(({ items }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -20 }}
             transition={{ 
-              delay: index * 0.1,
+              delay: index * 0.05,
               duration: 0.3,
               ease: "easeOut"
             }}
             whileHover={{ 
               scale: 1.02, 
-              y: -8,
+              y: -4,
               transition: { duration: 0.2 }
             }}
             className="group relative"
           >
-            <div className="card-premium rounded-3xl p-6 h-full flex flex-col shadow-premium hover:shadow-premium-lg transition-all duration-300 border border-white/20">
+            <div className="card-premium rounded-2xl p-3 sm:p-4 lg:p-6 h-full flex flex-col shadow-premium hover:shadow-premium-lg transition-all duration-300 border border-white/20">
               {/* Item Image Placeholder */}
-              <div className="relative mb-4">
-                <div className="w-full h-48 bg-gradient-to-br from-orange-100 via-red-100 to-pink-100 rounded-2xl flex items-center justify-center overflow-hidden">
-                  <div className="text-6xl opacity-20 font-bold text-gray-600">
+              <div className="relative mb-3 sm:mb-4">
+                <div className="w-full h-24 sm:h-32 lg:h-48 bg-gradient-to-br from-orange-100 via-red-100 to-pink-100 rounded-xl lg:rounded-2xl flex items-center justify-center overflow-hidden">
+                  <div className="text-2xl sm:text-4xl lg:text-6xl opacity-20 font-bold text-gray-600">
                     {item.name.charAt(0)}
                   </div>
                 </div>
@@ -66,20 +66,20 @@ const AdvancedMenuGrid: React.FC<AdvancedMenuGridProps> = memo(({ items }) => {
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1"
+                    className="absolute top-2 left-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center space-x-1"
                   >
                     <Star className="w-3 h-3 fill-current" />
-                    <span>Popular</span>
+                    <span className="hidden sm:inline">Popular</span>
                   </motion.div>
                 )}
 
                 {/* Veg/Non-Veg Badge */}
-                <div className="absolute top-3 right-3">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                <div className="absolute top-2 right-2">
+                  <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ${
                     item.isVeg ? 'bg-green-500' : 'bg-red-500'
                   }`}>
-                    <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
-                      <div className={`w-2 h-2 rounded-full ${
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full flex items-center justify-center">
+                      <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${
                         item.isVeg ? 'bg-green-500' : 'bg-red-500'
                       }`}></div>
                     </div>
@@ -91,66 +91,36 @@ const AdvancedMenuGrid: React.FC<AdvancedMenuGridProps> = memo(({ items }) => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => handleAddToCart(item)}
-                  className="absolute bottom-3 right-3 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:shadow-xl"
+                  className="absolute bottom-2 right-2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:shadow-xl"
                 >
-                  <Plus className="w-6 h-6" />
+                  <Plus className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
                 </motion.button>
               </div>
 
               {/* Item Info */}
               <div className="flex-1 flex flex-col">
-                <div className="mb-2">
-                  <h3 className="text-lg font-bold text-gray-800 mb-1 line-clamp-1">
-                    {item.name}
-                  </h3>
-                  <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+                <h3 className="font-bold text-gray-800 text-sm sm:text-base lg:text-lg mb-1 sm:mb-2 line-clamp-2">
+                  {item.name}
+                </h3>
+                
+                {item.description && (
+                  <p className="text-gray-600 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2">
                     {item.description}
                   </p>
-                </div>
+                )}
 
-                {/* Item Details */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-4 text-xs text-gray-500">
+                <div className="flex items-center justify-between mt-auto">
+                  <div className="flex items-center space-x-2">
+                    <span className="font-bold text-lg sm:text-xl lg:text-2xl text-blue-600">
+                      ₹{item.price}
+                    </span>
                     {item.preparationTime && (
-                      <div className="flex items-center space-x-1">
+                      <div className="flex items-center space-x-1 text-xs text-gray-500">
                         <Clock className="w-3 h-3" />
                         <span>{item.preparationTime}m</span>
                       </div>
                     )}
-                    {item.calories && (
-                      <span>{item.calories} cal</span>
-                    )}
                   </div>
-                  
-                  {/* Rating */}
-                  <div className="flex items-center space-x-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-3 h-3 ${
-                          i < (item.popularity || 0) 
-                            ? 'text-yellow-400 fill-current' 
-                            : 'text-gray-300'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Price and Action */}
-                <div className="mt-auto flex items-center justify-between">
-                  <div className="text-2xl font-bold text-gray-800">
-                    ₹{item.price}
-                  </div>
-                  
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => handleAddToCart(item)}
-                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg"
-                  >
-                    Add
-                  </motion.button>
                 </div>
               </div>
             </div>
