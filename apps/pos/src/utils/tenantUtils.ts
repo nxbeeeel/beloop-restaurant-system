@@ -14,14 +14,9 @@ export const getCurrentTenant = () => {
 }
 
 export const getTenantConfig = async (tenantId: string) => {
-  try {
-    const response = await fetch(`https://beloop-restaurant-system-production.up.railway.app/api/tenants/${tenantId}`)
-    const data = await response.json()
-    return data.tenant
-  } catch (error) {
-    console.error('Error fetching tenant config:', error)
-    return null
-  }
+  // Temporarily return null to avoid 404 errors
+  console.log('Tenant config requested for:', tenantId)
+  return null
 }
 
 export const getTenantBranding = (tenant: any) => {
