@@ -2,8 +2,22 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { getCurrentTenant, getTenantConfig, getTenantBranding } from '../utils/tenantUtils'
 import AdvancedPOS from './AdvancedPOS'
 
+interface TenantConfig {
+  id: string
+  name: string
+  isActive: () => boolean
+  settings: {
+    branding: {
+      primaryColor: string
+      restaurantName: string
+      logo: string
+    }
+    currency: string
+  }
+}
+
 const TenantAwarePOS = () => {
-  const [tenant, setTenant] = useState(null)
+  const [tenant, setTenant] = useState<TenantConfig | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -16,7 +30,7 @@ const TenantAwarePOS = () => {
         setLoading(true)
         
         // For now, create a mock tenant config to avoid 404 errors
-        const mockTenantConfig = {
+        const mockTenantConfig: TenantConfig = {
           id: currentTenantId,
           name: currentTenantId === 'demo' ? 'Demo Restaurant' : `${currentTenantId} Restaurant`,
           isActive: () => true,
