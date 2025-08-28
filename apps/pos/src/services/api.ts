@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/api'
+const API_BASE_URL = 'https://beloop-restaurant-system-production.up.railway.app/api'
 
 export interface MenuItem {
   id: string
