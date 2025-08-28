@@ -63,6 +63,8 @@ export interface ZomatoOrder {
   deliveryFee: number
   total: number
   receivedAt: Date
+  notes?: string
+  paymentMethod?: string
 }
 
 export interface Order {
@@ -78,7 +80,7 @@ export interface Order {
   total: number
   orderType: 'dine-in' | 'takeaway' | 'delivery' | 'zomato' | 'swiggy'
   table?: string
-  customer?: Customer
+  customer?: Customer | null
   paymentMethod?: 'cash' | 'card' | 'upi' | 'wallet' | 'split'
   paymentDetails?: {
     cashAmount?: number
@@ -141,7 +143,7 @@ interface AdvancedPOSState {
   currentOrder: Order | null
   orderType: 'dine-in' | 'takeaway' | 'delivery'
   selectedTable: string
-  customer: Customer | null
+  customer: Customer | null | undefined
 
   // UI State
   isPaymentModalOpen: boolean
@@ -184,6 +186,7 @@ interface AdvancedPOSState {
   setCustomerModalOpen: (open: boolean) => void
   setShowAnalytics: (show: boolean) => void
   updateSettings: (settings: Partial<AdvancedPOSState['settings']>) => void
+  recalculateTotals: () => void
 }
 
 export const useAdvancedPOSStore = create<AdvancedPOSState>()(
@@ -295,7 +298,7 @@ export const useAdvancedPOSStore = create<AdvancedPOSState>()(
         }
 
         // Recalculate totals
-        get().updateCartTotals()
+        get().recalculateTotals()
         toast.success(`Added ${item.name} to cart`)
       },
 
@@ -303,7 +306,7 @@ export const useAdvancedPOSStore = create<AdvancedPOSState>()(
         const { cart } = get()
         const updatedCart = cart.filter(item => item.menuItem.id !== itemId)
         set({ cart: updatedCart })
-        get().updateCartTotals()
+        get().recalculateTotals()
       },
 
       updateCartItemQuantity: (itemId, quantity) => {
@@ -317,15 +320,15 @@ export const useAdvancedPOSStore = create<AdvancedPOSState>()(
           item.menuItem.id === itemId ? { ...item, quantity } : item
         )
         set({ cart: updatedCart })
-        get().updateCartTotals()
+        get().recalculateTotals()
       },
 
       clearCart: () => {
         set({ cart: [] })
-        get().updateCartTotals()
+        get().recalculateTotals()
       },
 
-      updateCartTotals: () => {
+      recalculateTotals: () => {
         const { cart, settings } = get()
         const subtotal = cart.reduce((sum, item) => sum + (item.menuItem.price * item.quantity), 0)
         const tax = (subtotal * settings.taxRate) / 100
@@ -343,7 +346,7 @@ export const useAdvancedPOSStore = create<AdvancedPOSState>()(
 
       setTable: (table) => set({ selectedTable: table }),
 
-      setCustomer: (customer) => set({ customer }),
+      setCustomer: (customer) => set({ customer: customer || undefined }),
 
       createOrder: async () => {
         const { cart, orderType, selectedTable, customer, settings } = get()
@@ -390,7 +393,7 @@ export const useAdvancedPOSStore = create<AdvancedPOSState>()(
               currentOrder: newOrder,
               cart: []
             })
-            get().updateCartTotals()
+            get().recalculateTotals()
             
             toast.success('Order created successfully!')
             return newOrder
@@ -432,7 +435,7 @@ export const useAdvancedPOSStore = create<AdvancedPOSState>()(
 
       updateSettings: (newSettings) => {
         set({ settings: { ...get().settings, ...newSettings } })
-        get().updateCartTotals()
+        get().recalculateTotals()
       }
     }),
     {

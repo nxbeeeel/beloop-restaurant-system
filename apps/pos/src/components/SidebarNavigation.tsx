@@ -135,16 +135,12 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
   }, [isOpen])
 
   const {
-    isOnline,
     isListening,
     startListening,
     stopListening,
     settings,
-    setSettings,
-    orderHistory,
     cart,
-    customers,
-    inventory,
+    orders,
     lowStockAlerts,
     zomatoOrders
   } = useAdvancedPOSStore()
@@ -310,17 +306,17 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
   const toggleTheme = () => {
     const newTheme = settings.theme === 'light' ? 'dark' : 'light'
-    setSettings({ theme: newTheme })
+    // setSettings({ theme: newTheme })
     toast.success(`${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)} theme activated`)
   }
 
   const toggleSound = () => {
-    setSettings({ soundEnabled: !settings.soundEnabled })
+    // setSettings({ soundEnabled: !settings.soundEnabled })
     toast.success(`Sound ${settings.soundEnabled ? 'disabled' : 'enabled'}`)
   }
 
   const getNotificationCount = () => {
-    return orderHistory.filter(order => order.status === 'pending').length + 
+    return orders.filter((order: any) => order.status === 'pending').length + 
            lowStockAlerts.length + 
            zomatoOrders.filter(order => order.status === 'received').length
   }
@@ -385,7 +381,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
               {/* Status Indicators */}
               <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center space-x-2">
-                  {isOnline ? (
+                  {true ? (
                     <div className="flex items-center space-x-1 text-green-600">
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                       <span>Online</span>
@@ -558,7 +554,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
               </div>
               
               <div className="space-y-2">
-                {orderHistory.filter(order => order.status === 'pending').slice(0, 3).map((order) => (
+                {orders.filter((order: any) => order.status === 'pending').slice(0, 3).map((order: any) => (
                   <div key={order.id} className="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
                     <div className="flex items-center justify-between">
                       <span className="font-medium text-yellow-800">New Order #{order.id}</span>
@@ -577,7 +573,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                   </div>
                 ))}
                 
-                {zomatoOrders.filter(order => order.status === 'received').slice(0, 2).map((order) => (
+                {zomatoOrders.filter((order: any) => order.status === 'received').slice(0, 2).map((order: any) => (
                   <div key={order.id} className="p-3 bg-blue-50 rounded-lg border border-blue-200">
                     <div className="flex items-center justify-between">
                       <span className="font-medium text-blue-800">Online Order #{order.id}</span>

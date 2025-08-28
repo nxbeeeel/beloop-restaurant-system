@@ -15,13 +15,13 @@ import {
 import { useAdvancedPOSStore } from '../store/advancedPOS'
 
 const AnalyticsDashboard: React.FC = memo(() => {
-  const { cart, orderHistory } = useAdvancedPOSStore()
+  const { cart, orders } = useAdvancedPOSStore()
 
   // Calculate analytics
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
   const totalValue = cart.reduce((sum, item) => sum + (item.menuItem.price * item.quantity), 0)
-  const averageOrderValue = orderHistory.length > 0 
-    ? orderHistory.reduce((sum, order) => sum + order.total, 0) / orderHistory.length 
+    const averageOrderValue = orders.length > 0
+    ? orders.reduce((sum: number, order: any) => sum + order.total, 0) / orders.length
     : 0
 
   const stats = [
@@ -51,7 +51,7 @@ const AnalyticsDashboard: React.FC = memo(() => {
     },
     {
       title: 'Orders Today',
-      value: orderHistory.length,
+      value: orders.length,
       change: '+15%',
       trend: 'up',
       icon: Activity,
@@ -140,7 +140,7 @@ const AnalyticsDashboard: React.FC = memo(() => {
       <div className="card-premium rounded-2xl p-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
         <div className="space-y-3">
-          {orderHistory.slice(0, 5).map((order, index) => (
+          {orders.slice(0, 5).map((order: any, index: number) => (
             <motion.div
               key={order.id}
               initial={{ opacity: 0, x: -20 }}
@@ -164,7 +164,7 @@ const AnalyticsDashboard: React.FC = memo(() => {
             </motion.div>
           ))}
           
-          {orderHistory.length === 0 && (
+          {orders.length === 0 && (
             <div className="text-center py-8 text-gray-500">
               <Activity className="w-12 h-12 mx-auto mb-3 text-gray-300" />
               <p>No recent orders</p>

@@ -147,7 +147,7 @@ const ZomatoOrderPanel: React.FC = memo(() => {
                 {order.platform === 'zomato' && (
                   <div className="flex items-center space-x-1 text-gray-600">
                     <MapPin className="w-4 h-4" />
-                    <span className="truncate max-w-32">{order.address}</span>
+                    <span className="truncate max-w-32">{order.deliveryAddress}</span>
                   </div>
                 )}
               </div>
@@ -160,21 +160,21 @@ const ZomatoOrderPanel: React.FC = memo(() => {
                       <span className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center text-xs font-medium">
                         {item.quantity}
                       </span>
-                      <span className="font-medium">{item.name}</span>
+                      <span className="font-medium">{item.menuItem.name}</span>
                     </div>
-                    <span className="text-gray-600">₹{item.price}</span>
+                    <span className="text-gray-600">₹{item.menuItem.price}</span>
                   </div>
                 ))}
               </div>
 
               {/* Special Instructions */}
-              {order.specialInstructions && (
+              {order.notes && (
                 <div className="mb-3 p-2 bg-yellow-50 rounded-lg border border-yellow-200">
                   <div className="flex items-center space-x-1 text-yellow-800 text-sm">
                     <MessageCircle className="w-4 h-4" />
                     <span className="font-medium">Special Instructions:</span>
                   </div>
-                  <p className="text-sm text-yellow-700 mt-1">{order.specialInstructions}</p>
+                  <p className="text-sm text-yellow-700 mt-1">{order.notes}</p>
                 </div>
               )}
 
@@ -185,18 +185,18 @@ const ZomatoOrderPanel: React.FC = memo(() => {
                     <span className="font-medium">Total:</span> ₹{order.total}
                   </div>
                   <div className="text-gray-600">
-                    <span className="font-medium">Payment:</span> {order.paymentMethod.toUpperCase()}
+                    <span className="font-medium">Payment:</span> {order.paymentMethod || 'CASH'}
                   </div>
-                  {order.estimatedDelivery && (
+                  {order.estimatedDeliveryTime && (
                     <div className="text-gray-600">
-                      <span className="font-medium">ETA:</span> {order.estimatedDelivery}
+                      <span className="font-medium">ETA:</span> {order.estimatedDeliveryTime.toLocaleTimeString()}
                     </div>
                   )}
                 </div>
 
                 {/* Action Buttons */}
                 <div className="flex items-center space-x-2">
-                  {order.status === 'pending' && (
+                  {order.status === 'received' && (
                     <>
                       <motion.button
                         whileHover={{ scale: 1.05 }}

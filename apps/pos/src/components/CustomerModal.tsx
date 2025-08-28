@@ -38,7 +38,7 @@ const CustomerModal: React.FC = () => {
   }
 
   const handleClear = () => {
-    setCustomer(undefined)
+    setCustomer(null)
     setFormData({
       name: '',
       phone: '',

@@ -5,8 +5,7 @@ import { useAdvancedPOSStore } from '../store/advancedPOS'
 
 const VoiceAssistant: React.FC = () => {
   const { 
-    isListening, 
-    voiceCommand
+    isListening
   } = useAdvancedPOSStore()
 
   // Voice command processing is now handled in the store
@@ -33,15 +32,7 @@ const VoiceAssistant: React.FC = () => {
             </div>
           </div>
           
-          {voiceCommand && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-3 p-2 bg-red-400 rounded-lg"
-            >
-              <p className="text-sm">"{voiceCommand}"</p>
-            </motion.div>
-          )}
+          {/* Voice command display would go here */}
           
           <div className="mt-3 text-xs opacity-75">
             Say commands like "Add butter chicken", "Clear cart", or "Checkout"

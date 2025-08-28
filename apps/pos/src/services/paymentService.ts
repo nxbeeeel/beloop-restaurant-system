@@ -42,9 +42,9 @@ const PAYMENT_GATEWAYS: PaymentGateway[] = [
     type: 'razorpay',
     enabled: true,
     config: {
-      keyId: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_1234567890',
-      keySecret: import.meta.env.VITE_RAZORPAY_KEY_SECRET || 'test_secret_key',
-      webhookSecret: import.meta.env.VITE_RAZORPAY_WEBHOOK_SECRET || 'webhook_secret'
+      keyId: process.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_1234567890',
+      keySecret: process.env.VITE_RAZORPAY_KEY_SECRET || 'test_secret_key',
+      webhookSecret: process.env.VITE_RAZORPAY_WEBHOOK_SECRET || 'webhook_secret'
     }
   },
   {
@@ -53,9 +53,9 @@ const PAYMENT_GATEWAYS: PaymentGateway[] = [
     type: 'payu',
     enabled: true,
     config: {
-      merchantKey: import.meta.env.VITE_PAYU_MERCHANT_KEY || 'test_merchant_key',
-      salt: import.meta.env.VITE_PAYU_SALT || 'test_salt',
-      environment: import.meta.env.VITE_PAYU_ENV || 'test' // test or production
+      merchantKey: process.env.VITE_PAYU_MERCHANT_KEY || 'test_merchant_key',
+      salt: process.env.VITE_PAYU_SALT || 'test_salt',
+      environment: process.env.VITE_PAYU_ENV || 'test' // test or production
     }
   },
   {
@@ -64,8 +64,8 @@ const PAYMENT_GATEWAYS: PaymentGateway[] = [
     type: 'upi',
     enabled: true,
     config: {
-      merchantId: import.meta.env.VITE_UPI_MERCHANT_ID || 'test@merchant',
-      merchantName: import.meta.env.VITE_UPI_MERCHANT_NAME || 'Beloop Restaurant'
+      merchantId: process.env.VITE_UPI_MERCHANT_ID || 'test@merchant',
+      merchantName: process.env.VITE_UPI_MERCHANT_NAME || 'Beloop Restaurant'
     }
   }
 ]
@@ -153,7 +153,7 @@ class PaymentService {
 
       // Generate hash
       const hash = await this.generatePayUHash(paymentData, gateway.config.salt)
-      paymentData.hash = hash
+      ;(paymentData as any).hash = hash
 
       // In production, this should redirect to PayU
       return this.simulatePayUPayment(paymentData, request)
