@@ -134,37 +134,7 @@ const AdvancedCart: React.FC = () => {
   }
 
   return (
-    <div className="h-full flex flex-col bg-white/80 backdrop-blur-md">
-      {/* Header */}
-      <div className="p-6 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-800">Cart</h2>
-          <div className="flex items-center space-x-2">
-            <ShoppingCart className="w-5 h-5 text-blue-500" />
-            <span className="text-sm font-medium text-gray-700">{cartItemCount} items</span>
-            <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              className="p-1 hover:bg-gray-100 rounded"
-            >
-              {isCollapsed ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Customer Info */}
-        {customer && (
-          <div className="mt-3 flex items-center space-x-2">
-            <Users className="w-4 h-4 text-gray-500" />
-            <span className="text-sm text-gray-600">{customer.name}</span>
-            {customer.loyaltyPoints && (
-              <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
-                {customer.loyaltyPoints} pts
-              </span>
-            )}
-          </div>
-        )}
-      </div>
-
+    <div className="h-full flex flex-col">
       {/* Cart Items */}
       <AnimatePresence>
         {!isCollapsed && (
@@ -181,44 +151,52 @@ const AdvancedCart: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  className="bg-white rounded-lg p-4 shadow-sm border border-gray-100"
+                  className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h4 className="font-semibold text-gray-800">{item.menuItem.name}</h4>
-                      <p className="text-sm text-gray-500">{item.menuItem.description}</p>
-                      <div className="flex items-center space-x-2 mt-2">
-                        <span className="text-lg font-bold text-blue-600">
-                          {settings.currency}{item.menuItem.price}
+                      <h4 className="font-semibold text-gray-800 text-lg">{item.menuItem.name}</h4>
+                      <p className="text-sm text-gray-500 mt-1">{item.menuItem.description}</p>
+                      <div className="flex items-center space-x-2 mt-3">
+                        <span className="text-xl font-bold text-blue-600">
+                          ₹{item.menuItem.price}
                         </span>
                         <span className="text-sm text-gray-400">×</span>
-                        <span className="text-sm text-gray-600">{item.quantity}</span>
+                        <span className="text-sm text-gray-600 font-medium">{item.quantity}</span>
                       </div>
                     </div>
                     
                     <div className="flex items-center space-x-2">
-                      <button
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={() => handleQuantityChange(item.menuItem.id, item.quantity - 1)}
-                        className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+                        className="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors"
                       >
-                        <Minus className="w-4 h-4 text-gray-600" />
-                      </button>
+                        <Minus className="w-4 h-4" />
+                      </motion.button>
                       
-                      <span className="w-8 text-center font-medium">{item.quantity}</span>
+                      <span className="text-lg font-bold text-gray-800 min-w-[2rem] text-center">
+                        {item.quantity}
+                      </span>
                       
-                      <button
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={() => handleQuantityChange(item.menuItem.id, item.quantity + 1)}
-                        className="w-8 h-8 bg-blue-100 hover:bg-blue-200 rounded-full flex items-center justify-center transition-colors"
+                        className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center hover:bg-green-200 transition-colors"
                       >
-                        <Plus className="w-4 h-4 text-blue-600" />
-                      </button>
+                        <Plus className="w-4 h-4" />
+                      </motion.button>
                       
-                      <button
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={() => removeFromCart(item.menuItem.id)}
-                        className="w-8 h-8 bg-red-100 hover:bg-red-200 rounded-full flex items-center justify-center transition-colors"
+                        className="w-8 h-8 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center hover:bg-red-100 hover:text-red-600 transition-colors"
                       >
-                        <Trash2 className="w-4 h-4 text-red-600" />
-                      </button>
+                        <Trash2 className="w-4 h-4" />
+                      </motion.button>
                     </div>
                   </div>
                 </motion.div>
@@ -227,6 +205,8 @@ const AdvancedCart: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+
 
       {/* Summary */}
       <div className="border-t border-gray-200 p-6 space-y-4">

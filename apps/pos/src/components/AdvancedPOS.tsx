@@ -39,7 +39,7 @@ import VoiceAssistant from './VoiceAssistant'
 import SidebarNavigation from './SidebarNavigation'
 
 const AdvancedPOS: React.FC = () => {
-  console.log('AdvancedPOS component rendering...')
+  console.log('AdvancedPOS component rendering... - Updated for Railway deployment')
   
   const {
     cart,
@@ -236,6 +236,19 @@ const AdvancedPOS: React.FC = () => {
 
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0)
   const cartTotal = cart.reduce((total, item) => total + (item.menuItem.price * item.quantity), 0)
+
+  // Add loading state
+  if (isLoadingMenu) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center p-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <h1 className="text-2xl font-bold text-blue-800 mb-4">Loading Menu...</h1>
+          <p className="text-blue-600">Connecting to Railway backend</p>
+        </div>
+      </div>
+    )
+  }
 
   // Add error boundary
   if (menuError) {
@@ -614,19 +627,19 @@ const AdvancedPOS: React.FC = () => {
         </div>
 
         {/* Right Panel - Cart and Orders */}
-        <div className="lg:w-96 w-full glass-strong shadow-premium-lg border-l border-white/20 lg:min-h-full">
+        <div className="lg:w-96 w-full bg-white/95 backdrop-blur-xl shadow-2xl border-l border-white/30 lg:min-h-screen sticky top-0">
           <div className="h-full flex flex-col">
             {/* Cart Header */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50"
+              className="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 via-purple-50 to-indigo-50"
             >
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold text-gray-800">Current Order</h2>
                 <motion.div 
                   whileHover={{ scale: 1.1 }}
-                  className="flex items-center space-x-2 bg-blue-500 text-white px-3 py-1 rounded-full"
+                  className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-3 py-1 rounded-full shadow-lg"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   <span className="font-semibold">{cartItemCount}</span>
@@ -651,7 +664,7 @@ const AdvancedPOS: React.FC = () => {
             </motion.div>
 
             {/* Cart Content */}
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-y-auto">
               <AdvancedCart />
             </div>
           </div>
