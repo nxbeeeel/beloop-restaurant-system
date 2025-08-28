@@ -39,6 +39,8 @@ import VoiceAssistant from './VoiceAssistant'
 import SidebarNavigation from './SidebarNavigation'
 
 const AdvancedPOS: React.FC = () => {
+  console.log('AdvancedPOS component rendering...')
+  
   const {
     cart,
     menuItems,
@@ -69,6 +71,8 @@ const AdvancedPOS: React.FC = () => {
     setCustomerModalOpen,
     setShowAnalytics
   } = useAdvancedPOSStore()
+
+  console.log('Store state:', { menuItems: menuItems.length, isLoadingMenu, menuError })
 
   // Filter menu items based on category and search
   const filteredMenuItems = useMemo(() => {
@@ -232,6 +236,25 @@ const AdvancedPOS: React.FC = () => {
 
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0)
   const cartTotal = cart.reduce((total, item) => total + (item.menuItem.price * item.quantity), 0)
+
+  // Add error boundary
+  if (menuError) {
+    console.error('Menu error:', menuError)
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center">
+        <div className="text-center p-8">
+          <h1 className="text-2xl font-bold text-red-800 mb-4">Connection Error</h1>
+          <p className="text-red-600 mb-4">Unable to connect to the server</p>
+          <button 
+            onClick={() => fetchMenuItems()}
+            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+          >
+            Retry Connection
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
