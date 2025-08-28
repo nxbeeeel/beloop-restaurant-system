@@ -25,12 +25,14 @@
     "deploy:mobile": "npm run build && cap sync && echo 'Build mobile apps with Android Studio/Xcode'"
   },
   "dependencies": {
+    "@types/react-color": "^3.0.13",
     "axios": "^1.7.2",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.5",
     "lucide-react": "^0.294.0",
     "razorpay": "^2.9.6",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-qr-code": "^2.0.12",
@@ -39,7 +41,8 @@
     "recharts": "^2.8.0",
     "socket.io-client": "^4.7.5",
     "uuid": "^9.0.1",
-    "workbox-window": "^7.0.0",
+    "workbox-webpack-plugin": "^7.3.0",
+    "workbox-window": "^7.3.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

@@ -24,7 +24,8 @@ import {
   ChefHat,
   Database,
   Globe,
-  Smartphone
+  Smartphone,
+  Palette
 } from 'lucide-react'
 import { useAdvancedPOSStore } from '../store/advancedPOS'
 import toast, { Toaster } from 'react-hot-toast'
@@ -37,6 +38,8 @@ import ZomatoOrderPanel from './ZomatoOrderPanel'
 import AnalyticsDashboard from './AnalyticsDashboard'
 import VoiceAssistant from './VoiceAssistant'
 import SidebarNavigation from './SidebarNavigation'
+import { AdvancedThemeCustomizer } from './AdvancedThemeCustomizer'
+import { OfflineStatus } from './OfflineStatus'
 
 const AdvancedPOS: React.FC = () => {
   console.log('AdvancedPOS component rendering... - Updated for Railway deployment')
@@ -98,6 +101,7 @@ const AdvancedPOS: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [activeFeature, setActiveFeature] = useState('pos')
   const [showSwipeHint, setShowSwipeHint] = useState(true)
+  const [showThemeCustomizer, setShowThemeCustomizer] = useState(false)
   
   // Swipe functionality
   const [touchStart, setTouchStart] = useState<number | null>(null)
@@ -484,17 +488,19 @@ const AdvancedPOS: React.FC = () => {
                 )}
               </motion.div>
 
-              {/* Online Status */}
-              <div className="flex items-center space-x-2">
-                {isOnline ? (
-                  <Wifi className="w-5 h-5 text-green-500" />
-                ) : (
-                  <WifiOff className="w-5 h-5 text-red-500" />
-                )}
-                <span className={`text-sm font-medium ${isOnline ? 'text-green-600' : 'text-red-600'}`}>
-                  {isOnline ? 'Online' : 'Offline'}
-                </span>
-              </div>
+              {/* Theme Customizer */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setShowThemeCustomizer(true)}
+                className="p-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white rounded-xl hover:from-pink-600 hover:to-rose-700 transition-all shadow-lg"
+                title="Customize Theme"
+              >
+                <Palette className="w-5 h-5" />
+              </motion.button>
+
+              {/* Offline Status */}
+              <OfflineStatus />
 
               {/* Current Time */}
               <div className="text-right">
@@ -692,6 +698,12 @@ const AdvancedPOS: React.FC = () => {
       <AnimatePresence>
         {isPaymentModalOpen && <AdvancedPaymentModal />}
         {isCustomerModalOpen && <CustomerModal />}
+        {showThemeCustomizer && (
+          <AdvancedThemeCustomizer 
+            isOpen={showThemeCustomizer}
+            onClose={() => setShowThemeCustomizer(false)}
+          />
+        )}
       </AnimatePresence>
 
       {/* Low Stock Alerts */}

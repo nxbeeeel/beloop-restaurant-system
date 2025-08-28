@@ -305,6 +305,9 @@ app.get('/api/orders', (req, res) => {
   res.json(response);
 });
 
+// Import tenant routes
+const tenantRoutes = require('./routes/tenants');
+
 // Analytics endpoints
 app.get('/api/analytics/sales', (req, res) => {
   const today = new Date().toDateString();
@@ -328,6 +331,9 @@ app.get('/api/analytics/sales', (req, res) => {
   
   res.json(analytics);
 });
+
+// Tenant routes
+app.use('/api/tenants', tenantRoutes);
 
 // Helper functions
 function getTopItems(orders) {

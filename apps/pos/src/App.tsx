@@ -1,11 +1,18 @@
 import { Routes, Route } from 'react-router-dom'
-import AdvancedPOS from './components/AdvancedPOS'
+import TenantAwarePOS from './components/TenantAwarePOS'
+import PricingPage from './pages/Pricing'
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<AdvancedPOS />} />
-      <Route path="*" element={<AdvancedPOS />} />
+      {/* Main POS Route - Tenant Aware */}
+      <Route path="/" element={<TenantAwarePOS />} />
+      
+      {/* Pricing Page */}
+      <Route path="/pricing" element={<PricingPage />} />
+      
+      {/* Fallback */}
+      <Route path="*" element={<TenantAwarePOS />} />
     </Routes>
   )
 }
