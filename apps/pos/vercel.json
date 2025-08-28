@@ -33,9 +33,5 @@
       ]
     }
   ],
-  "functions": {
-    "api/tenants/**": {
-      "maxDuration": 10
-    }
-  }
+
 }
