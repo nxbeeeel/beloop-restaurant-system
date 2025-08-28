@@ -38,7 +38,6 @@ import ZomatoOrderPanel from './ZomatoOrderPanel'
 import AnalyticsDashboard from './AnalyticsDashboard'
 import VoiceAssistant from './VoiceAssistant'
 import SidebarNavigation from './SidebarNavigation'
-import AdvancedThemeCustomizer from './AdvancedThemeCustomizer'
 
 
 const AdvancedPOS: React.FC = () => {
