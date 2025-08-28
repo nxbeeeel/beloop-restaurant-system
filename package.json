@@ -19,6 +19,7 @@
     "build:pos": "cd apps/pos && npm run build",
 
     "start": "cd apps/backend && npm start",
+    "start:backend": "cd apps/backend && npm start",
     "test": "npm run test:backend && npm run test:admin && npm run test:pos",
     "test:backend": "cd apps/backend && npm test",
     "test:admin": "cd apps/admin && npm test",
