@@ -38,6 +38,7 @@ import ZomatoOrderPanel from './ZomatoOrderPanel'
 import AnalyticsDashboard from './AnalyticsDashboard'
 import VoiceAssistant from './VoiceAssistant'
 import SidebarNavigation from './SidebarNavigation'
+import AdvancedThemeCustomizer from './AdvancedThemeCustomizer'
 
 
 const AdvancedPOS: React.FC = () => {
@@ -71,7 +72,9 @@ const AdvancedPOS: React.FC = () => {
     syncWithCloud,
     setPaymentModalOpen,
     setCustomerModalOpen,
-    setShowAnalytics
+    setShowAnalytics,
+    isThemeCustomizerOpen,
+    setIsThemeCustomizerOpen
   } = useAdvancedPOSStore()
 
   console.log('Store state:', { menuItems: menuItems.length, isLoadingMenu, menuError })
@@ -695,7 +698,12 @@ const AdvancedPOS: React.FC = () => {
       <AnimatePresence>
         {isPaymentModalOpen && <AdvancedPaymentModal />}
         {isCustomerModalOpen && <CustomerModal />}
-
+        {isThemeCustomizerOpen && (
+          <AdvancedThemeCustomizer 
+            isOpen={isThemeCustomizerOpen} 
+            onClose={() => setIsThemeCustomizerOpen(false)} 
+          />
+        )}
       </AnimatePresence>
 
       {/* Low Stock Alerts */}
