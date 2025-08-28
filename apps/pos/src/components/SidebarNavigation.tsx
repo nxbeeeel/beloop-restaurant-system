@@ -142,7 +142,8 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
     cart,
     orders,
     lowStockAlerts,
-    zomatoOrders
+    zomatoOrders,
+    updateSettings
   } = useAdvancedPOSStore()
 
   const features = [
@@ -306,7 +307,14 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
   const toggleTheme = () => {
     const newTheme = settings.theme === 'light' ? 'dark' : 'light'
-    // setSettings({ theme: newTheme })
+    // Update the document class for dark mode
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+    // Update settings in store
+    updateSettings({ theme: newTheme })
     toast.success(`${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)} theme activated`)
   }
 

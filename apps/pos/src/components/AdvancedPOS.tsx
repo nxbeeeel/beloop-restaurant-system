@@ -71,9 +71,7 @@ const AdvancedPOS: React.FC = () => {
     syncWithCloud,
     setPaymentModalOpen,
     setCustomerModalOpen,
-    setShowAnalytics,
-    isThemeCustomizerOpen,
-    setIsThemeCustomizerOpen
+    setShowAnalytics
   } = useAdvancedPOSStore()
 
   console.log('Store state:', { menuItems: menuItems.length, isLoadingMenu, menuError })
@@ -102,6 +100,7 @@ const AdvancedPOS: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [activeFeature, setActiveFeature] = useState('pos')
   const [showSwipeHint, setShowSwipeHint] = useState(true)
+  const [isDarkMode, setIsDarkMode] = useState(false)
 
   
   // Swipe functionality
@@ -697,12 +696,6 @@ const AdvancedPOS: React.FC = () => {
       <AnimatePresence>
         {isPaymentModalOpen && <AdvancedPaymentModal />}
         {isCustomerModalOpen && <CustomerModal />}
-        {isThemeCustomizerOpen && (
-          <AdvancedThemeCustomizer 
-            isOpen={isThemeCustomizerOpen} 
-            onClose={() => setIsThemeCustomizerOpen(false)} 
-          />
-        )}
       </AnimatePresence>
 
       {/* Low Stock Alerts */}
