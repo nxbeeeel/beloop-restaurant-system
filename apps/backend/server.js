@@ -353,6 +353,22 @@ function getHourlyBreakdown(orders) {
   return hourly;
 }
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Beloop Restaurant Management System API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/health',
+      menu: '/api/menu',
+      orders: '/api/orders',
+      analytics: '/api/analytics/sales'
+    },
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
